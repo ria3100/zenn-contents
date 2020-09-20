@@ -19,13 +19,17 @@ const main = async (filePath) => {
     const json = {
       title: meta.title,
       description: meta.description,
-      tags: meta.topics.map(topic => ({
-        fieldId: 'tag', name: topic,
+      tags: meta.topics.map((topic) => ({
+        fieldId: 'tag',
+        name: topic,
       })),
       markdown: article,
     }
 
-    await fetch(`https://ria.microcms.io/api/v1/article/foo`, {
+    const id = filePath.match(/\.\.\/articles\/(.+)\.md/)[1]
+    if (!id) return
+
+    await fetch(`https://ria.microcms.io/api/v1/article/${id}`, {
       headers: {
         'X-WRITE-API-KEY': process.env.X_WRITE_API_KEY,
         'Content-Type': 'application/json',
