@@ -1,0 +1,46 @@
+name: Node CI
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@master
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - run: cd cms
+
+    - name: npm install
+      run: yarn
+
+    - name: publish
+      run: for md in $( git diff HEAD --name-only | grep .md$ ); do yarn post-publish ../${md}; done
+      env:
+        X_WRITE_API_KEY: ${{secrets.X_WRITE_API_KEY}}
+
+    # - name: Slack Notification
+    #   # success() or failure() or always()
+    #   if: always()
+    #   uses: homoluctus/slatify@master
+    #   with:
+    #     type: ${{ job.status }}
+    #     job_name: '*Publish*'
+    #     icon_emoji: 'npm'
+    #     mention_if: 'failure'
+    #     channel: '#ci_cd'
+    #     commit: true
+    #     url: ${{ secrets.SLACK_WEBHOOK }}
