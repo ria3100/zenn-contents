@@ -22,15 +22,15 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - run: cd cms
-
     - name: npm install
       run: yarn
+      working-directory: cms
 
     - name: publish
-      run: for md in $( git diff HEAD --name-only | grep .md$ ); do yarn post-publish ../${md}; done
+      run: for md in $( ls ../articles | grep .md$ ); do yarn post-publish ../articles/${md}; done
       env:
         X_WRITE_API_KEY: ${{secrets.X_WRITE_API_KEY}}
+      working-directory: cms
 
     # - name: Slack Notification
     #   # success() or failure() or always()
