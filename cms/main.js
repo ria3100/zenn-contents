@@ -56,16 +56,14 @@ const main = async (filePath) => {
   console.log(filePath)
 
   fs.readFile(filePath, 'utf-8', async (err, article) => {
-    if (err) {
-      console.log(err)
-      throw err
-    }
+    if (err) throw err
 
     md = new markdownIt().use(markdownItMeta)
     md.render(article)
     const { meta } = md
 
     const tags = await fetchTagIds(meta.topics)
+    console.log({tags})
 
     const json = {
       title: meta.title,
@@ -73,19 +71,23 @@ const main = async (filePath) => {
       tags,
       markdown: article,
     }
+    console.log({json})
 
     const id = filePath.match(/\.\.\/articles\/(.+)\.md/)[1]
+    console.log({id})
 
     // 記事が存在すれば patch で更新、存在しなければ put で保存
     const response = await fetch(`${host}/article/${id}`, { headers })
     const exists = !!await response.json()
     const method = exists ? 'patch' : 'put'
 
-    await fetch(`${host}/article/${id}`, {
+    const res = await fetch(`${host}/article/${id}`, {
       headers,
       method,
       body: JSON.stringify(json),
     })
+
+    console.log(await res.json())
 
     console.log(method ? 'updated' : 'created')
   })
