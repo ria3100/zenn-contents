@@ -15,7 +15,7 @@ jobs:
         node-version: [12.x]
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v1
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@master
@@ -26,10 +26,19 @@ jobs:
       run: yarn
       working-directory: cms
 
+    - name: diff HEAD
+      run: git diff HEAD --name-only
+      working-directory: cms
+
+    - name: diff HEAD~
+      run: git diff --name-only --diff-filter=AM ${{ github.event.before }} ${{ github.sha }}
+      working-directory: cms
+
     - name: publish
-      run: for md in $( ls ../articles | grep .md$ ); do yarn post-publish ../articles/${md}; done
+      run: for md in $( git diff HEAD~ --name-only | grep .md$ ); do echo ../${md}; done
       env:
         X_WRITE_API_KEY: ${{secrets.X_WRITE_API_KEY}}
+        X_API_KEY: ${{secrets.X_API_KEY}}
       working-directory: cms
 
     # - name: Slack Notification
