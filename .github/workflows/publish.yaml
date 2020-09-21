@@ -27,7 +27,7 @@ jobs:
       working-directory: cms
 
     - name: publish
-      run: for md in $( git diff --name-only --diff-filter=AM ${{ github.event.before }} ${{ github.sha }} | grep .md$ ); do echo ../${md}; done
+      run: for md in $( git diff --name-only --diff-filter=AM ${{ github.event.before }} ${{ github.sha }} | grep .md$ ); do yarn post-publish ../${md}; done
       env:
         X_WRITE_API_KEY: ${{secrets.X_WRITE_API_KEY}}
         X_API_KEY: ${{secrets.X_API_KEY}}

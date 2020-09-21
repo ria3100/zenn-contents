@@ -63,7 +63,6 @@ const main = async (filePath) => {
     const { meta } = md
 
     const tags = await fetchTagIds(meta.topics)
-    console.log({tags})
 
     const json = {
       title: meta.title,
@@ -71,23 +70,19 @@ const main = async (filePath) => {
       tags,
       markdown: article,
     }
-    console.log({json})
 
     const id = filePath.match(/\.\.\/articles\/(.+)\.md/)[1]
-    console.log({id})
 
     // 記事が存在すれば patch で更新、存在しなければ put で保存
     const response = await fetch(`${host}/article/${id}`, { headers })
     const exists = !!await response.json()
     const method = exists ? 'patch' : 'put'
 
-    const res = await fetch(`${host}/article/${id}`, {
+    await fetch(`${host}/article/${id}`, {
       headers,
       method,
       body: JSON.stringify(json),
     })
-
-    console.log(await res.json())
 
     console.log(method ? 'updated' : 'created')
   })
