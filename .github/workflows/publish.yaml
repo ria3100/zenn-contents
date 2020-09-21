@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  build:
+  deploy:
 
     runs-on: ubuntu-latest
 
@@ -32,6 +32,13 @@ jobs:
         X_WRITE_API_KEY: ${{secrets.X_WRITE_API_KEY}}
         X_API_KEY: ${{secrets.X_API_KEY}}
       working-directory: cms
+
+    - name: vercel deolpy
+      uses: amondnet/vercel-action@v19
+      with:
+        vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
+        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
 
     # - name: Slack Notification
     #   # success() or failure() or always()
