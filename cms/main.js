@@ -53,6 +53,8 @@ const fetchTagIds = async (articleTags) => {
 }
 
 const main = async (filePath) => {
+  console.log(filePath)
+
   fs.readFile(filePath, 'utf-8', async (err, article) => {
     if (err) throw err
 
