@@ -56,7 +56,10 @@ const main = async (filePath) => {
   console.log(filePath)
 
   fs.readFile(filePath, 'utf-8', async (err, article) => {
-    if (err) throw err
+    if (err) {
+      console.log(err)
+      throw err
+    }
 
     md = new markdownIt().use(markdownItMeta)
     md.render(article)
