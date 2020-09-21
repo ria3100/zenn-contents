@@ -82,7 +82,7 @@ const main = async (filePath) => {
       body: JSON.stringify(json),
     })
 
+    console.log(method ? 'updated' : 'created')
   })
 }
-console.log(filePath)
 main(filePath)
