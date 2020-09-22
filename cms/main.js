@@ -77,9 +77,9 @@ const main = async (filePath) => {
     const id = filePath.match(/\.\.\/articles\/(.+)\.md/)[1]
 
     // 記事が存在すれば patch で更新、存在しなければ put で保存
-    const response = await fetch(`${host}/article/${id}`, { headers })
-    const exists = !!await response.json()
-    const method = exists ? 'patch' : 'put'
+    const response = await fetch(`${host}/article?ids=${id}`, { headers })
+    const { totalCount } = await response.json()
+    const method = totalCount > 1 ? 'patch' : 'put'
 
     await fetch(`${host}/article/${id}`, {
       headers,
