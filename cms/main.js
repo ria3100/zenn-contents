@@ -62,6 +62,9 @@ const main = async (filePath) => {
     md.render(article)
     const { meta } = md
 
+    // 下書きなら return
+    if (!meta.published) return
+
     const tags = await fetchTagIds(meta.topics)
 
     const json = {

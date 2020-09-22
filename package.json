@@ -6,8 +6,8 @@
   "scripts": {
     "preview": "npx zenn preview",
     "new:article": "npx zenn new:article",
-    "text-lint": "textlint",
-    "text-lint:fix": "textlint --fix"
+    "textlint": "textlint",
+    "textlint:fix": "textlint --fix"
   },
   "repository": {
     "type": "git",
