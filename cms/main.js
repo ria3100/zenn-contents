@@ -42,8 +42,8 @@ const fetchTagIds = async (articleTags) => {
   return await Promise.all(
     articleTags.map(async (tagName) => {
       // すでに存在すれば id を返す
-      const TagId = tagList.find((tag) => tag.name === tagName).id
-      if (TagId) return TagId
+      const tag = tagList.find((tag) => tag.name === tagName)
+      if (tag) return tag.id
 
       // 存在しなければ新しく作成して id を返す
       const newTagId = await postNewTag(tagName)
