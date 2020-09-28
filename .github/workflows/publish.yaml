@@ -33,10 +33,11 @@ jobs:
         X_API_KEY: ${{secrets.X_API_KEY}}
       working-directory: cms
 
-    - name: vercel deolpy
-      run: curl ${DEPLOY_HOOK}
-      env:
-        DEPLOY_HOOK: ${{secrets.DEPLOY_HOOK}}
+    # ISR 対応で不要になった
+    # - name: vercel deolpy
+    #   run: curl ${DEPLOY_HOOK}
+    #   env:
+    #     DEPLOY_HOOK: ${{secrets.DEPLOY_HOOK}}
 
     # - name: Slack Notification
     #   # success() or failure() or always()
