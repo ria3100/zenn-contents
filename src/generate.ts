@@ -15,7 +15,7 @@ const main = () => {
     const {meta} = md as any;
 
     return {
-      link: `https://zenn.dev/ria/articles/${path}`,
+      path: path.replace(/.md$/, ''),
       ...meta,
     };
   });
