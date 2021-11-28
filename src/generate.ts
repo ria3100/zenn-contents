@@ -20,7 +20,7 @@ const main = () => {
     };
   });
 
-  fs.writeFileSync('./docs/contents.json', JSON.stringify({items: data}));
+  fs.writeFileSync('./docs/v1.json', JSON.stringify({items: data}));
 };
 
 main();
