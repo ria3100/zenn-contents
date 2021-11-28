@@ -8,6 +8,7 @@ interface Meta {
   emoji: string;
   topics: string[];
   published: true;
+  pubDate: string;
 }
 
 interface Data extends Omit<Meta, 'published'> {
@@ -31,11 +32,12 @@ const main = () => {
     return [
       ...acc,
       {
+        path: path.replace(/.md$/, ''),
         title: meta.title,
         description: meta.description,
         emoji: meta.emoji,
         topics: meta.topics,
-        path: path.replace(/.md$/, ''),
+        pubDate: meta.pubDate,
       },
     ];
   }, [] as any);
